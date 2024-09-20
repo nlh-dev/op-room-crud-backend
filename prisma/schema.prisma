@@ -1,0 +1,47 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id                Int     @id @default(autoincrement())
+  op_users          String
+  op_users_password String
+  op_users_role     Int
+  op_users_state    Boolean @default(false)
+  roles             roles   @relation(fields: [op_users_role], references: [roles_id])
+
+  @@index([op_users_role], map: "users_op_users_role_fkey")
+}
+
+model roles {
+  roles_id   Int     @id @default(autoincrement())
+  roles_name String
+  users      users[]
+}
+
+model patients {
+  patients_id               Int            @id @default(autoincrement())
+  patients_name             String
+  patients_surgery_type_id  Int
+  patients_started_date     DateTime
+  patients_updated_date     DateTime?
+  patients_surgery_state_id Int
+  surgery_states            surgery_states @relation(fields: [patients_surgery_state_id], references: [surgery_state_id])
+  surgery_type              surgery_types  @relation(fields: [patients_surgery_type_id], references: [surgery_type_id])
+
+  @@index([patients_surgery_state_id], map: "patients_patients_surgery_state_id_fkey")
+  @@index([patients_surgery_type_id], map: "patients_patients_surgery_type_id_fkey")
+}
+
+model surgery_types {
+  surgery_type_id   Int        @id @default(autoincrement())
+  surgery_type_name String
+  patients          patients[]
+}
+
+model surgery_states {
+  surgery_state_id   Int        @id @default(autoincrement())
+  surgery_state_name String
+  patients           patients[]
+}
