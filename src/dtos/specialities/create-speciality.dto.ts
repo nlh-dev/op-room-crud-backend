@@ -1,1 +1,1 @@
-export class CreateSpecialityDto {}
+export class DTOCreateSpeciality {}
