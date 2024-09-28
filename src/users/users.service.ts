@@ -43,11 +43,26 @@ export class UsersService extends BaseService {
     }
     baseResponse.message = 'Usuario creado exitosamente.';
     return baseResponse;
-    // this.prismaService.users.create(createUserDto)
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: DTOCreateUser): Promise<DtoBaseResponse> {
+    try{
+      await this.prismaService.users.update({
+        data:{
+          op_users: updateUserDto.name,
+          op_users_password: updateUserDto.password,
+          op_users_role: Number(updateUserDto.role),
+          // op_users_state: true,
+        },
+        where: {
+          id: id
+        }
+      })
+      baseResponse.message = 'Usuario actualizado exitosamente.'
+      return baseResponse;
+    } catch(err) {
+      return badResponse;
+    }
   }
 
   async remove(id: number): Promise<DtoBaseResponse> {
