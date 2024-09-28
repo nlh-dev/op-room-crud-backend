@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { SpecialitiesService } from './specialities.service';
-import { DTOCreateSpeciality } from '../dtos/specialities/create-speciality.dto';
-import { UpdateSpecialityDto } from '../dtos/specialities/update-speciality.dto';
+import { DTOCreateSpeciality } from '../dtos/specialities/speciality.dto';
 import { surgery_types } from '@prisma/client';
+import { DtoBaseResponse } from 'src/dtos/base-response.dto';
 @Controller('specialities')
 export class SpecialitiesController {
 
@@ -13,19 +13,9 @@ export class SpecialitiesController {
     return await this.specialitiesService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.specialitiesService.findOne(+id);
-  }
-
   @Post()
-  create(@Body() createSpecialityDto: DTOCreateSpeciality) {
-    return this.specialitiesService.create(createSpecialityDto);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSpecialityDto: UpdateSpecialityDto) {
-    return this.specialitiesService.update(+id, updateSpecialityDto);
+  async create(@Body() createSpecialityDto: DTOCreateSpeciality): Promise<DtoBaseResponse> {
+    return await this.specialitiesService.create(createSpecialityDto);
   }
 
   @Delete('/:id')

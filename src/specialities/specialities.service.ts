@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DTOCreateSpeciality } from '../dtos/specialities/create-speciality.dto';
-import { UpdateSpecialityDto } from '../dtos/specialities/update-speciality.dto';
+import { DTOCreateSpeciality } from '../dtos/specialities/speciality.dto';
 import { BaseService } from 'src/base/base.service';
 import { surgery_types } from '@prisma/client';
 import { badResponse, baseResponse } from 'src/dtos/baseResponse';
@@ -12,16 +11,19 @@ export class SpecialitiesService extends BaseService {
     return await this.prismaService.surgery_types.findMany();
   }
 
-
-  findOne(id: number) {
-    return `This action returns a #${id} speciality`;
-  }
-  create(createSpecialityDto: DTOCreateSpeciality) {
-    return 'This action adds a new speciality';
-  }
-
-  update(id: number, updateSpecialityDto: UpdateSpecialityDto) {
-    return `This action updates a #${id} speciality`;
+  async create(createSpecialityDto: DTOCreateSpeciality): Promise<DtoBaseResponse> {
+    try{
+      await this.prismaService.surgery_types.create({
+        data: {
+          surgery_type_name: createSpecialityDto.speciality
+        }
+      });
+  
+      baseResponse.message = 'Intervención creada exitosamente.'
+      return baseResponse;
+    } catch(err){
+      return badResponse;
+    }
   }
 
   async remove(id: number): Promise<DtoBaseResponse> {

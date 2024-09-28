@@ -43,7 +43,6 @@ export class UsersService extends BaseService {
     }
     baseResponse.message = 'Usuario creado exitosamente.';
     return baseResponse;
-    // this.prismaService.users.create(createUserDto)
   }
 
   async update(id: number, updateUserDto: DTOCreateUser): Promise<DtoBaseResponse> {
