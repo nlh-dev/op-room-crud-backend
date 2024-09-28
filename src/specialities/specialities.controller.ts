@@ -28,8 +28,8 @@ export class SpecialitiesController {
     return this.specialitiesService.update(+id, updateSpecialityDto);
   }
 
-  @Delete(':id')
+  @Delete('/:id')
   remove(@Param('id') id: string) {
-    return this.specialitiesService.remove(+id);
+    return this.specialitiesService.remove(Number(id));
   }
 }

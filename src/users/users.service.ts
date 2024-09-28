@@ -50,7 +50,18 @@ export class UsersService extends BaseService {
     return `This action updates a #${id} user`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number): Promise<DtoBaseResponse> {
+    try {
+      await this.prismaService.users.delete({
+        where: {
+          id: id
+        }
+      })
+      baseResponse.message = 'Usuario eliminado exitosamente.'
+      return baseResponse;
+    } catch (err) {
+      badResponse.message = 'No se pudo eliminar el usuario.'
+      return badResponse;
+    }
   }
 }

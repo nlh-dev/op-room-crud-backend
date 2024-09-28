@@ -28,8 +28,8 @@ export class UsersController {
     return await this.usersService.update(+id, updateUserDto);
   }
 
-  @Delete(':id')
+  @Delete('/:id')
   async remove(@Param('id') id: string) {
-    return await this.usersService.remove(+id);
+    return await this.usersService.remove(Number(id));
   }
 }

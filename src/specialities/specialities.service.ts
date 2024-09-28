@@ -3,6 +3,8 @@ import { DTOCreateSpeciality } from '../dtos/specialities/create-speciality.dto'
 import { UpdateSpecialityDto } from '../dtos/specialities/update-speciality.dto';
 import { BaseService } from 'src/base/base.service';
 import { surgery_types } from '@prisma/client';
+import { badResponse, baseResponse } from 'src/dtos/baseResponse';
+import { DtoBaseResponse } from 'src/dtos/base-response.dto';
 
 @Injectable()
 export class SpecialitiesService extends BaseService {
@@ -10,7 +12,7 @@ export class SpecialitiesService extends BaseService {
     return await this.prismaService.surgery_types.findMany();
   }
 
-  
+
   findOne(id: number) {
     return `This action returns a #${id} speciality`;
   }
@@ -22,7 +24,18 @@ export class SpecialitiesService extends BaseService {
     return `This action updates a #${id} speciality`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} speciality`;
+  async remove(id: number): Promise<DtoBaseResponse> {
+    try {
+      await this.prismaService.surgery_types.delete({
+        where: {
+          surgery_type_id: id
+        }
+      })
+      baseResponse.message = 'Especialidad eliminada exitosamente.'
+      return baseResponse;
+    } catch (err) {
+      badResponse.message = 'No se pudo eliminar el registro.'
+      return badResponse;
+    }
   }
 }
