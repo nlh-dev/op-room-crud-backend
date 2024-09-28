@@ -12,6 +12,14 @@ export class PatientsController {
   async findAll(): Promise<patients[]> {
     return await this.patientsService.findAll();
   }
+  @Get('/current')
+  async findCurrent(): Promise<patients[]> {
+    return await this.patientsService.findCurrent();
+  }
+  @Get('/prev')
+  async findPrev(): Promise<patients[]> {
+    return await this.patientsService.findPrev();
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

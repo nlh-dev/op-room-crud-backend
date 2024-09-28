@@ -16,6 +16,32 @@ export class PatientsService extends BaseService {
     });
   }
 
+  async findCurrent(): Promise<patients[]> {
+    return await this.prismaService.patients.findMany({
+      include: {
+        surgery_states: true,
+        surgery_type: true
+      },
+      where: {
+        patients_updated_date: {
+          not: null
+        }
+      }
+    });
+  }
+
+  async findPrev(): Promise<patients[]> {
+    return await this.prismaService.patients.findMany({
+      include: {
+        surgery_states: true,
+        surgery_type: true
+      },
+      where: {
+        patients_updated_date: null
+      }
+    });
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} patient`;
   }
