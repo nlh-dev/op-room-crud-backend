@@ -23,12 +23,7 @@ export class PatientsController {
   async getStatesPatient(): Promise<surgery_states[]> {
     return await this.patientsService.getStatesPatient();
   }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.patientsService.findOne(+id);
-  }
-
+  
   @Post()
   create(@Body() createPatientDto: CreatePatientDto) {
     return this.patientsService.create(createPatientDto);

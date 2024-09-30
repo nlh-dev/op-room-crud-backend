@@ -24,9 +24,7 @@ export class PatientsService extends BaseService {
         surgery_type: true
       },
       where: {
-        patients_updated_date: {
-          not: null
-        }
+        patients_updated_date: null
       }
     });
   }
@@ -38,17 +36,15 @@ export class PatientsService extends BaseService {
         surgery_type: true
       },
       where: {
-        patients_updated_date: null
+        patients_updated_date: {
+          not: null
+        }
       }
     });
   }
 
   async getStatesPatient(): Promise<surgery_states[]> {
     return await this.prismaService.surgery_states.findMany();
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} patient`;
   }
 
   async create(createPatientDto: CreatePatientDto): Promise<DtoBaseResponse> {
