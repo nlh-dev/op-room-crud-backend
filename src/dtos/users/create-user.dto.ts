@@ -7,4 +7,6 @@ export class DTOCreateUser {
     password: string;
     @IsString()
     role: string;
+    @IsString()
+    state: string;
 }
