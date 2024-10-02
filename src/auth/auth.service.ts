@@ -12,7 +12,7 @@ export class AuthService extends BaseService{
         const findUser = await this.prismaService.users.findFirst({
             where:{
                 op_users: login.username,
-                op_users_password: login.password
+                op_users_password: login.password,
             },
             include: {
                 roles: true
@@ -21,6 +21,11 @@ export class AuthService extends BaseService{
 
         if(!findUser){
             badResponse.message = 'Usuario no encontrado.';
+            return badResponse;
+        }
+
+        if(!findUser.op_users_state){
+            badResponse.message = 'Usuario inactivo';
             return badResponse;
         }
 
