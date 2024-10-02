@@ -34,7 +34,7 @@ export class UsersService extends BaseService {
         op_users: createUserDto.name,
         op_users_password: createUserDto.password,
         op_users_role: Number(createUserDto.role),
-        op_users_state: true
+        op_users_state: createUserDto.state == '1' ? true : false
       }
     });
 
@@ -52,7 +52,7 @@ export class UsersService extends BaseService {
           op_users: updateUserDto.name,
           op_users_password: updateUserDto.password,
           op_users_role: Number(updateUserDto.role),
-          // op_users_state: true,
+          op_users_state: updateUserDto.state == '1' ? true : false
         },
         where: {
           id: id
